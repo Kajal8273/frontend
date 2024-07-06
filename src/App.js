@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import TaskList from './components/TaskList';
+import TaskForm from './components/TaskForm';
+import TaskDetail from './components/TaskDetail';
 
-function App() {
+const App = () => {
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+
+  const refreshTasks = () => setRefresh(!refresh);
+  const selectTask = (id) => setSelectedTaskId(id);
+  const deselectTask = () => setSelectedTaskId(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Task Management</h1>
+      <TaskForm
+        taskId={selectedTaskId}
+        refreshTasks={refreshTasks}
+        deselectTask={deselectTask}
+      />
+      <TaskList selectTask={selectTask} />
+      {selectedTaskId && <TaskDetail taskId={selectedTaskId} />}
     </div>
   );
-}
+};
 
 export default App;
